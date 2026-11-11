@@ -4,504 +4,381 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090909">
-<title>NOIR — Dining Reimagined</title>
-<meta name="description" content="NOIR — An intimate dining experience, crafted to be savored.">
+<meta name="theme-color" content="#080807">
+<title>NOIR DINING | Beyond Dining</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-  }
-}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg:#090909;
-  --panel:#11100e;
-  --gold:#c9a66b;
-  --cream:#eee9df;
-  --muted:#aaa49a;
-  --line:rgba(201,166,107,.22);
+  --black: #080807;
+  --gold: #c9a66b;
+  --cream: #f4ead9;
+  --glass: rgba(255,255,255,.075);
+  --line: rgba(255,255,255,.13);
 }
 
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior:smooth; }
+html { scroll-behavior: smooth; }
 
 body {
-  background:var(--bg);
-  color:var(--cream);
-  font-family:"DM Sans",sans-serif;
-  overflow-x:hidden;
+  background: var(--black);
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
 }
 
-a {
-  color:inherit;
-  text-decoration:none;
+button, a { font: inherit; }
+button { cursor: pointer; }
+
+#world {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
 }
 
-button { font:inherit; }
-
-.nav {
-  width:100%;
-  height:82px;
-  padding:0 8%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--line);
-  position:absolute;
-  top:0;
-  z-index:10;
-  background:rgba(9,9,9,.75);
-  backdrop-filter:blur(12px);
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.65));
+  transition: opacity 1.2s ease, visibility 1.2s;
 }
 
-.logo {
-  font-family:"Cormorant Garamond",serif;
-  font-size:34px;
-  letter-spacing:7px;
-  color:var(--gold);
-}
-
-.nav-links {
-  display:flex;
-  align-items:center;
-  gap:35px;
-  font-size:12px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-}
-
-.nav-links a {
-  color:var(--muted);
-  transition:.3s;
-}
-
-.nav-links a:hover { color:var(--gold); }
-
-.nav-button,.button {
-  border:1px solid var(--gold);
-  color:var(--gold);
-  padding:13px 23px;
-  background:transparent;
-  font-size:11px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  transition:.3s;
-  display:inline-block;
-  cursor:pointer;
-}
-
-.nav-button:hover,.button:hover {
-  background:var(--gold);
-  color:#090909;
-}
-
-.hero {
-  min-height:100vh;
-  padding:145px 8% 70px;
-  display:grid;
-  grid-template-columns:1fr 1.1fr;
-  align-items:center;
-  gap:35px;
-  overflow:hidden;
+.intro-content {
+  padding: 25px;
+  width: min(700px, 100%);
 }
 
 .eyebrow {
-  color:var(--gold);
-  font-size:10px;
-  letter-spacing:5px;
-  text-transform:uppercase;
-  margin-bottom:25px;
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
 }
 
-h1,h2,h3 {
-  font-family:"Cormorant Garamond",serif;
-  font-weight:400;
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(65px, 12vw, 120px);
+  font-weight: 400;
+  letter-spacing: 10px;
+  line-height: .9;
 }
 
-h1 {
-  font-size:clamp(65px,8vw,112px);
-  line-height:.91;
-  max-width:600px;
+.logo span { color: var(--gold); }
+
+.tagline {
+  color: #c8bca9;
+  font-size: 12px;
+  letter-spacing: 5px;
+  margin-top: 25px;
+  text-transform: uppercase;
 }
 
-h1 span,.section-heading h2 span,
-.story-copy h2 span,.visit h2 span {
-  color:var(--gold);
-  font-style:italic;
+.enter-btn {
+  margin-top: 55px;
+  padding: 17px 32px;
+  color: var(--cream);
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(201,166,107,.6);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  letter-spacing: 3px;
+  font-size: 10px;
+  transition: .35s;
 }
 
-.hero-copy {
-  color:var(--muted);
-  line-height:1.9;
-  max-width:390px;
-  margin:30px 0;
-  font-size:14px;
+.enter-btn:hover {
+  background: var(--gold);
+  color: #080807;
+  box-shadow: 0 0 35px rgba(201,166,107,.3);
 }
 
-.hero-note {
-  margin-top:55px;
-  color:#777168;
-  font-size:10px;
-  letter-spacing:3px;
-  text-transform:uppercase;
+#site {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s ease;
 }
 
-.art {
-  height:560px;
-  position:relative;
-  min-width:0;
+.glass {
+  background: rgba(17,16,14,.64);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 15px 50px rgba(0,0,0,.2);
 }
 
-#dish-canvas {
-  width:100%;
-  height:100%;
-  display:block;
-  touch-action:none;
-  cursor:grab;
+nav {
+  position: fixed;
+  z-index: 20;
+  top: 18px;
+  left: 5%;
+  width: 90%;
+  padding: 15px 24px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.art-label {
-  position:absolute;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  color:var(--muted);
-  font-size:10px;
-  letter-spacing:3px;
-  white-space:nowrap;
-  text-transform:uppercase;
-  pointer-events:none;
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25px;
+  letter-spacing: 3px;
 }
 
-.section { padding:110px 8%; }
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  color: #d5cbbb;
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color .3s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+section {
+  position: relative;
+  padding: 110px 8%;
+  scroll-margin-top: 90px;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 150px;
+}
+
+.hero-panel {
+  width: min(570px,100%);
+  padding: 45px;
+  border-radius: 12px;
+}
+
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+}
+
+.hero h1 {
+  font-size: clamp(55px,8vw,90px);
+  line-height: .95;
+  margin: 18px 0;
+}
+
+.hero h1 span { color: var(--gold); }
+
+.description {
+  color: #bcb2a4;
+  line-height: 1.9;
+  font-size: 13px;
+  max-width: 420px;
+}
+
+.gold-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 15px 24px;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #15110b;
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 10px;
+  transition: .3s;
+}
+
+.gold-btn:hover {
+  background: transparent;
+  color: var(--gold);
+}
 
 .section-heading {
-  text-align:center;
-  margin-bottom:45px;
+  font-size: clamp(42px,6vw,65px);
+  margin-bottom: 15px;
 }
 
-.section-heading h2 {
-  font-size:clamp(48px,6vw,72px);
+.section-heading span { color: var(--gold); }
+
+.section-sub {
+  font-size: 12px;
+  color: #b8ad9d;
+  letter-spacing: 1px;
+  line-height: 1.8;
 }
 
-.section-heading p {
-  color:var(--muted);
-  margin-top:15px;
-  font-size:13px;
+.menu-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+  align-items: center;
+  margin-top: 45px;
 }
 
-/* IMMERSIVE MENU */
-
-.menu-section {
-  padding:100px 5% 120px;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  background:
-    radial-gradient(ellipse at 50% 50%,rgba(201,166,107,.07),transparent 60%),
-    #090909;
+.menu-viewer {
+  height: 420px;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse,rgba(201,166,107,.13),transparent 68%),rgba(15,14,12,.68);
 }
 
-.menu-heading {
-  text-align:center;
-  margin-bottom:25px;
+.viewer-label {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  color: #c7b99f;
+  font-size: 9px;
+  letter-spacing: 3px;
 }
 
-.menu-heading h2 {
-  font-family:"Cormorant Garamond",serif;
-  font-size:clamp(50px,7vw,82px);
-  font-weight:400;
+#food-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: pan-y;
 }
 
-.menu-heading h2 span {
-  color:var(--gold);
-  font-style:italic;
+.menu-list {
+  display: grid;
+  gap: 12px;
 }
 
-.menu-heading p {
-  color:var(--muted);
-  font-size:13px;
-  margin-top:12px;
+.dish {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding: 22px;
+  color: var(--cream);
+  border-radius: 9px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.1);
+  transition: .3s;
 }
 
-.menu-stage {
-  max-width:1000px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  gap:30px;
+.dish:hover, .dish.active {
+  border-color: var(--gold);
+  background: rgba(201,166,107,.1);
+  transform: translateX(5px);
 }
 
-.menu-art {
-  height:460px;
-  position:relative;
-  min-width:0;
+.dish h3 { font-size: 25px; }
+.dish p { color: #a99e8d; font-size: 10px; margin-top: 5px; }
+.price { color: var(--gold); font-size: 13px; }
+
+.about-panel {
+  padding: 45px;
+  border-radius: 12px;
+  max-width: 700px;
 }
 
-#menu-canvas {
-  display:block;
-  width:100%;
-  height:100%;
-  touch-action:none;
-  cursor:grab;
+.about-panel h2 {
+  font-size: 50px;
+  margin-bottom: 20px;
 }
 
-.menu-art-label {
-  position:absolute;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:9px;
-  color:#777168;
-  letter-spacing:3px;
-  white-space:nowrap;
-  pointer-events:none;
+.about-panel p {
+  color: #bcb2a4;
+  font-size: 13px;
+  line-height: 2;
 }
 
-.menu-info {
-  padding:20px 5%;
+.reservation {
+  max-width: 680px;
+  margin: auto;
+  padding: 45px;
+  border-radius: 12px;
 }
 
-.menu-index {
-  color:var(--gold);
-  letter-spacing:4px;
-  font-size:10px;
-  margin-bottom:20px;
+.reservation h2 {
+  font-size: 48px;
+  margin-bottom: 12px;
 }
 
-.menu-info h3 {
-  font-size:clamp(40px,5vw,65px);
-  line-height:1;
-  margin-bottom:20px;
+.reservation p {
+  color: #bcb2a4;
+  font-size: 12px;
+  line-height: 1.8;
 }
 
-.menu-description {
-  color:var(--muted);
-  font-size:14px;
-  line-height:2;
-  max-width:380px;
+.reservation input,
+.reservation select {
+  width: 100%;
+  padding: 15px;
+  margin-top: 13px;
+  background: rgba(255,255,255,.06);
+  color: white;
+  border: 1px solid var(--line);
+  outline: none;
+  font: inherit;
+  font-size: 12px;
 }
 
-.menu-price {
-  color:var(--gold);
-  font-size:22px;
-  margin-top:27px;
-  font-family:"Cormorant Garamond",serif;
-}
+.reservation select option { background: #151410; }
 
-.menu-controls {
-  display:flex;
-  align-items:center;
-  gap:16px;
-  margin-top:35px;
-}
-
-.menu-arrow {
-  width:48px;
-  height:48px;
-  border:1px solid var(--line);
-  color:var(--gold);
-  background:transparent;
-  font-size:20px;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.menu-arrow:hover {
-  background:var(--gold);
-  color:#090909;
-}
-
-.menu-position {
-  color:var(--muted);
-  font-size:11px;
-  letter-spacing:3px;
-}
-
-.menu-dots {
-  display:flex;
-  gap:9px;
-  margin-top:25px;
-}
-
-.menu-dot {
-  height:3px;
-  width:30px;
-  background:#39352e;
-  border:0;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.menu-dot.active { background:var(--gold); }
-
-.menu-hint {
-  text-align:center;
-  color:#777168;
-  font-size:10px;
-  letter-spacing:2px;
-  margin-top:35px;
-}
-
-/* STORY */
-
-.story {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:70px;
-  align-items:center;
-  border-bottom:1px solid var(--line);
-}
-
-.story-visual {
-  min-height:380px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:
-    radial-gradient(ellipse,rgba(201,166,107,.15),transparent 65%),
-    #11100e;
-  border:1px solid var(--line);
-}
-
-.story-mark {
-  font-family:"Cormorant Garamond",serif;
-  color:var(--gold);
-  font-size:clamp(70px,10vw,130px);
-  letter-spacing:12px;
-}
-
-.story-copy h2 {
-  font-size:clamp(48px,6vw,72px);
-  line-height:1;
-  margin-bottom:25px;
-}
-
-.story-copy p {
-  color:var(--muted);
-  font-size:14px;
-  line-height:2;
-  margin-bottom:25px;
-}
-
-/* VISIT */
-
-.visit {
-  text-align:center;
-  background:
-    radial-gradient(ellipse at center,rgba(201,166,107,.10),transparent 65%);
-}
-
-.visit h2 {
-  font-size:clamp(55px,7vw,85px);
-}
-
-.visit p {
-  color:var(--muted);
-  margin:22px auto 35px;
-  line-height:1.9;
-  max-width:450px;
-  font-size:14px;
+.reservation button {
+  width: 100%;
+  margin-top: 18px;
 }
 
 footer {
-  padding:35px 8%;
-  border-top:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  color:#777168;
-  font-size:10px;
-  letter-spacing:2px;
-  text-transform:uppercase;
+  position: relative;
+  z-index: 2;
+  padding: 40px 8%;
+  text-align: center;
+  color: #8e8477;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: 10px;
+  letter-spacing: 2px;
 }
 
-footer .logo { font-size:25px; }
-
-@media(max-width:800px) {
-  .nav { padding:0 5%; }
-
-  .nav-links {
-    gap:15px;
-    font-size:10px;
-  }
-
-  .nav-button { display:none; }
-
-  .hero {
-    grid-template-columns:1fr;
-    padding:145px 7% 50px;
-    text-align:center;
-  }
-
-  .hero-copy {
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  .hero h1 { margin:auto; }
-
-  .art { height:420px; }
-
-  .menu-stage {
-    grid-template-columns:1fr;
-    gap:0;
-  }
-
-  .menu-art { height:370px; }
-
-  .menu-info {
-    text-align:center;
-    padding:10px 5%;
-  }
-
-  .menu-description { margin:auto; }
-
-  .menu-controls,.menu-dots { justify-content:center; }
-
-  .story {
-    grid-template-columns:1fr;
-    gap:35px;
-  }
+@media(max-width:750px) {
+  nav { padding: 13px 15px; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 8px; letter-spacing: 1px; }
+  .nav-logo { font-size: 20px; }
+  section { padding: 90px 6%; }
+  .hero { padding-top: 130px; }
+  .hero-panel { padding: 30px 22px; }
+  .menu-layout { grid-template-columns: 1fr; }
+  .menu-viewer { height: 340px; }
+  .about-panel,.reservation { padding: 28px 22px; }
 }
 
-@media(max-width:430px) {
-  .nav { height:70px; }
+@media(max-width:390px) {
+  .nav-links { gap: 8px; }
+  .nav-links a { font-size: 7px; }
+}
 
-  .logo { font-size:27px; }
-
-  .nav-links {
-    gap:12px;
-    letter-spacing:1px;
-    font-size:9px;
-  }
-
-  .art { height:330px; }
-
-  .section { padding:80px 7%; }
-
-  .menu-section { padding:85px 5%; }
-
-  .menu-art { height:310px; }
-
-  footer {
-    flex-direction:column;
-    text-align:center;
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
   }
 }
 </style>
@@ -509,494 +386,554 @@ footer .logo { font-size:25px; }
 
 <body>
 
-<nav class="nav">
-  <a href="#" class="logo">NOIR</a>
+<canvas id="world"></canvas>
 
-  <div class="nav-links">
-    <a href="#menu">Menu</a>
-    <a href="#story">Our story</a>
-    <a href="#visit">Visit</a>
+<div id="intro">
+  <div class="intro-content">
+    <p class="eyebrow">An experience beyond dining</p>
+    <div class="logo">NOIR<span>.</span></div>
+    <div class="tagline">Fine dining · Redefined</div>
+    <button class="enter-btn" id="enter">ENTER EXPERIENCE ↗</button>
   </div>
+</div>
 
-  <a href="#visit" class="nav-button">Reserve a table</a>
+<div id="site">
+
+<nav class="glass">
+  <div class="nav-logo">NOIR<span>.</span></div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#about">Story</a>
+    <a href="#reserve">Reserve</a>
+  </div>
 </nav>
 
-<main>
-
-<!-- ORIGINAL HERO -->
-
-<section class="hero">
-  <div class="hero-content">
-    <div class="eyebrow">An experience beyond dining</div>
-
-    <h1>Made to be <span>savored.</span></h1>
-
-    <p class="hero-copy">
-      A meeting of flavour, atmosphere and artistry.
-      Discover a dining experience where every detail
-      has a story and every plate is a masterpiece.
+<section class="hero" id="home">
+  <div class="hero-panel glass">
+    <p class="eyebrow">Welcome to NOIR DINING</p>
+    <h1>Beyond<br><span>Dining.</span></h1>
+    <p class="description">
+      Where extraordinary flavours meet timeless elegance.
+      Discover a world of culinary artistry, crafted to turn
+      every moment into an experience worth remembering.
     </p>
-
-    <a href="#menu" class="button">Explore the menu</a>
-
-    <div class="hero-note">
-      Crafted with intention · Served with passion
-    </div>
-  </div>
-
-  <div class="art">
-    <canvas id="dish-canvas"></canvas>
-    <div class="art-label">Interact with the dish · Drag to explore</div>
+    <a class="gold-btn" href="#menu">Explore the menu ↗</a>
   </div>
 </section>
 
-<!-- NEW IMMERSIVE 3D MENU -->
+<section id="menu">
+  <p class="eyebrow">Curated for the extraordinary</p>
+  <h2 class="section-heading">The <span>Menu.</span></h2>
+  <p class="section-sub">Select a dish. Explore it in three dimensions.</p>
 
-<section class="menu-section" id="menu">
-
-  <div class="menu-heading">
-    <div class="eyebrow">The signature collection</div>
-    <h2>A taste of <span>NOIR.</span></h2>
-    <p>Explore our creations in a new dimension.</p>
-  </div>
-
-  <div class="menu-stage">
-
-    <div class="menu-art">
-      <canvas id="menu-canvas"></canvas>
-      <div class="menu-art-label">Drag to rotate · Pinch to zoom</div>
+  <div class="menu-layout">
+    <div class="menu-viewer glass">
+      <canvas id="food-canvas"></canvas>
+      <div class="viewer-label">INTERACTIVE 3D DISH · DRAG TO ROTATE</div>
     </div>
 
-    <div class="menu-info">
+    <div class="menu-list">
+      <button class="dish active" data-dish="steak">
+        <div>
+          <h3>Midnight Wagyu</h3>
+          <p>Premium steak · Herb butter · Seasonal greens</p>
+        </div>
+        <span class="price">₹1,850</span>
+      </button>
 
-      <div class="menu-index" id="menu-index">01 / SIGNATURE</div>
+      <button class="dish" data-dish="pasta">
+        <div>
+          <h3>Truffle Elegance</h3>
+          <p>Handmade pasta · Black truffle · Parmesan</p>
+        </div>
+        <span class="price">₹950</span>
+      </button>
 
-      <h3 id="menu-name">Midnight Truffle</h3>
-
-      <p class="menu-description" id="menu-description">
-        Creamy truffle pasta, parmesan,
-        cracked pepper and fresh herbs.
-      </p>
-
-      <div class="menu-price" id="menu-price">₹620</div>
-
-      <div class="menu-controls">
-        <button class="menu-arrow" id="previous" aria-label="Previous dish">←</button>
-        <span class="menu-position" id="menu-position">01 — 03</span>
-        <button class="menu-arrow" id="next" aria-label="Next dish">→</button>
-      </div>
-
-      <div class="menu-dots" id="menu-dots">
-        <button class="menu-dot active" data-index="0" aria-label="Dish 1"></button>
-        <button class="menu-dot" data-index="1" aria-label="Dish 2"></button>
-        <button class="menu-dot" data-index="2" aria-label="Dish 3"></button>
-      </div>
-
+      <button class="dish" data-dish="dessert">
+        <div>
+          <h3>Dark Obsession</h3>
+          <p>Dark chocolate · Vanilla · Gold leaf</p>
+        </div>
+        <span class="price">₹650</span>
+      </button>
     </div>
   </div>
-
-  <div class="menu-hint">
-    THREE DISHES · THREE EXPERIENCES · ONE TABLE
-  </div>
-
 </section>
 
-<!-- ORIGINAL STORY -->
-
-<section class="section story" id="story">
-
-  <div class="story-visual">
-    <div class="story-mark">N.</div>
-  </div>
-
-  <div class="story-copy">
-    <div class="eyebrow">The philosophy</div>
-
-    <h2>Beyond the <span>ordinary.</span></h2>
-
+<section id="about">
+  <div class="about-panel glass">
+    <p class="eyebrow">The philosophy</p>
+    <h2>Crafted with <span style="color:var(--gold)">intention.</span></h2>
     <p>
-      At NOIR, dining is more than a meal.
-      It is the atmosphere, the ingredients,
-      the details and the memories created
-      around the table.
+      At NOIR, dining is more than a meal. It is an atmosphere,
+      a feeling, and an art. Every detail is thoughtfully
+      considered — from the first impression to the final course.
+      Step into a world where luxury meets creativity.
     </p>
-
-    <p>
-      We believe great food should be experienced
-      slowly, shared generously and remembered
-      long after the last bite.
-    </p>
-
-    <a href="#visit" class="button">Discover NOIR</a>
   </div>
-
 </section>
 
-<!-- ORIGINAL VISIT -->
+<section id="reserve">
+  <div class="reservation glass">
+    <p class="eyebrow">Your table awaits</p>
+    <h2>Make it <span style="color:var(--gold)">memorable.</span></h2>
+    <p>Send us your reservation request.</p>
 
-<section class="section visit" id="visit">
-  <div class="eyebrow">Your table awaits</div>
-
-  <h2>Make it a <span>moment.</span></h2>
-
-  <p>
-    An evening worth remembering starts here.
-    Get in touch to plan your next dining experience.
-  </p>
-
-  <a class="button" href="mailto:hello@example.com?subject=NOIR%20Table%20Enquiry">
-    Enquire about a table
-  </a>
+    <form id="reservation-form">
+      <input type="text" placeholder="Your name" required>
+      <input type="email" placeholder="Email address" required>
+      <input type="date" required>
+      <select required>
+        <option value="">Number of guests</option>
+        <option>1 guest</option>
+        <option>2 guests</option>
+        <option>3 guests</option>
+        <option>4 guests</option>
+        <option>5+ guests</option>
+      </select>
+      <button class="gold-btn" type="submit">Request a reservation ↗</button>
+    </form>
+    <p id="reservation-message" style="margin-top:15px"></p>
+  </div>
 </section>
-
-</main>
 
 <footer>
-  <div class="logo">NOIR</div>
-  <div>© 2026 NOIR. All rights reserved.</div>
-  <div>Dining reimagined.</div>
+  NOIR DINING · BEYOND DINING · ALL RIGHTS RESERVED
 </footer>
 
+</div>
+
 <script type="module">
-import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import * as THREE from
+'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
 
-/* SHARED 3D DISH BUILDER */
+import { gsap } from
+'https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js';
 
-function createDish(scene, type = 0) {
+// ----------------------------------
+// MAIN 3D RESTAURANT
+// ----------------------------------
+
+const worldCanvas = document.getElementById('world');
+
+const renderer = new THREE.WebGLRenderer({
+  canvas: worldCanvas,
+  antialias: true,
+  powerPreference: 'high-performance'
+});
+
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.35;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x080807);
+scene.fog = new THREE.FogExp2(0x080807, 0.035);
+
+const camera = new THREE.PerspectiveCamera(
+  55, window.innerWidth/window.innerHeight, 0.1, 100
+);
+
+camera.position.set(0, 3, 18);
+camera.lookAt(0, 2, 0);
+
+scene.add(new THREE.HemisphereLight(0xc7b99d, 0x17100a, 1.2));
+
+const goldLight = new THREE.PointLight(0xffc77d, 180, 30);
+goldLight.position.set(0, 7, -4);
+scene.add(goldLight);
+
+const frontLight = new THREE.PointLight(0xc28c49, 70, 20);
+frontLight.position.set(-5, 4, 5);
+scene.add(frontLight);
+
+const floorMat = new THREE.MeshStandardMaterial({
+  color: 0x171614,
+  roughness: 0.22,
+  metalness: 0.55
+});
+
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(45, 55),
+  floorMat
+);
+
+floor.rotation.x = -Math.PI/2;
+floor.position.y = -0.1;
+scene.add(floor);
+
+// Marble floor details
+for(let i=-5;i<=5;i++) {
+  const line = new THREE.Mesh(
+    new THREE.BoxGeometry(.018,.012,48),
+    new THREE.MeshStandardMaterial({
+      color:0x8e754e,
+      metalness:.8,
+      roughness:.3
+    })
+  );
+  line.position.set(i*1.5,-.085,0);
+  scene.add(line);
+}
+
+// Walls
+const wallMat = new THREE.MeshStandardMaterial({
+  color:0x171512,
+  roughness:.65
+});
+
+function addWall(x,y,z,w,h,d) {
+  const mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(w,h,d),
+    wallMat
+  );
+  mesh.position.set(x,y,z);
+  scene.add(mesh);
+}
+
+addWall(-9,4,0,0.5,9,45);
+addWall(9,4,0,0.5,9,45);
+addWall(0,4,-19,18,9,.5);
+
+// Decorative columns
+const columnMat = new THREE.MeshStandardMaterial({
+  color:0x29251e,
+  metalness:.55,
+  roughness:.35
+});
+
+for(const x of [-7.8,7.8]) {
+  for(const z of [-13,-5,3,11]) {
+    const column = new THREE.Mesh(
+      new THREE.CylinderGeometry(.28,.38,7,12),
+      columnMat
+    );
+    column.position.set(x,3.4,z);
+    scene.add(column);
+
+    const cap = new THREE.Mesh(
+      new THREE.CylinderGeometry(.5,.5,.2,12),
+      new THREE.MeshStandardMaterial({
+        color:0x987343,
+        metalness:.8,
+        roughness:.3
+      })
+    );
+    cap.position.set(x,6.9,z);
+    scene.add(cap);
+  }
+}
+
+// Chandeliers
+const chandeliers = [];
+
+function createChandelier(x,y,z) {
   const group = new THREE.Group();
-  scene.add(group);
-
-  const porcelain = new THREE.MeshStandardMaterial({
-    color:0xf0e9dc,
-    roughness:.23,
-    metalness:.05
-  });
+  group.position.set(x,y,z);
 
   const gold = new THREE.MeshStandardMaterial({
-    color:0xc9a66b,
+    color:0xc39a5b,
     metalness:.85,
-    roughness:.2
+    roughness:.22
   });
 
-  const pastaColors = [0xe5b75f,0xd9a65d,0xc88a42];
-
-  const pastaMaterial = new THREE.MeshStandardMaterial({
-    color:pastaColors[type],
-    roughness:.36
-  });
-
-  const sauceColors = [0x8e281b,0xa94c24,0x9a3522];
-
-  const sauceMaterial = new THREE.MeshStandardMaterial({
-    color:sauceColors[type],
-    roughness:.28
-  });
-
-  const plate = new THREE.Mesh(
-    new THREE.CylinderGeometry(3.05,2.85,.28,96),
-    porcelain
-  );
-  plate.position.y=-.25;
-  group.add(plate);
-
-  const rim = new THREE.Mesh(
-    new THREE.TorusGeometry(2.85,.035,12,100),
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1,.055,8,32),
     gold
   );
-  rim.rotation.x=Math.PI/2;
-  rim.position.y=-.08;
-  group.add(rim);
+  ring.rotation.x=Math.PI/2;
+  group.add(ring);
 
-  const inner = new THREE.Mesh(
-    new THREE.CylinderGeometry(2.35,2.25,.08,96),
-    porcelain
+  const stem = new THREE.Mesh(
+    new THREE.CylinderGeometry(.045,.045,1.4,10),
+    gold
   );
-  inner.position.y=-.08;
-  group.add(inner);
-
-  const sauce = new THREE.Mesh(
-    new THREE.CircleGeometry(2.05,96),
-    sauceMaterial
-  );
-  sauce.rotation.x=-Math.PI/2;
-  sauce.position.y=.01;
-  group.add(sauce);
-
-  // Pasta strands
-  for(let i=0;i<24;i++) {
-    const points=[];
-    const angle=(i/24)*Math.PI*2;
-    const radius=.25+Math.random()*.65;
-
-    for(let j=0;j<=50;j++) {
-      const t=j/50;
-      const a=angle+t*Math.PI*3.5;
-      const r=radius+t*.65;
-
-      points.push(new THREE.Vector3(
-        Math.cos(a)*r,
-        .13+Math.sin(t*Math.PI)*.3,
-        Math.sin(a)*r
-      ));
-    }
-
-    const curve=new THREE.CatmullRomCurve3(points);
-
-    const strand=new THREE.Mesh(
-      new THREE.TubeGeometry(curve,100,.045,8,false),
-      pastaMaterial
-    );
-
-    group.add(strand);
-  }
-
-  // Tomato pieces
-  const tomatoMaterial=new THREE.MeshStandardMaterial({
-    color:type===1?0xd08b32:0xc63e27,
-    roughness:.32
-  });
+  stem.position.y=.75;
+  group.add(stem);
 
   for(let i=0;i<8;i++) {
-    const angle=Math.random()*Math.PI*2;
-    const radius=.8+Math.random()*.85;
-
-    const tomato=new THREE.Mesh(
-      new THREE.SphereGeometry(.16,24,24),
-      tomatoMaterial
+    const angle=i*Math.PI/4;
+    const bulb=new THREE.Mesh(
+      new THREE.SphereGeometry(.12,12,12),
+      new THREE.MeshStandardMaterial({
+        color:0xffd18a,
+        emissive:0xffa63d,
+        emissiveIntensity:2
+      })
     );
 
-    tomato.scale.set(1.2,.55,1);
-    tomato.position.set(
-      Math.cos(angle)*radius,
-      .25,
-      Math.sin(angle)*radius
+    bulb.position.set(
+      Math.cos(angle)*.8,
+      -.15,
+      Math.sin(angle)*.8
     );
-
-    group.add(tomato);
+    group.add(bulb);
   }
 
-  // Basil leaves
-  const basilMaterial=new THREE.MeshStandardMaterial({
-    color:0x426b35,
-    roughness:.6,
-    side:THREE.DoubleSide
-  });
+  const light = new THREE.PointLight(0xffbd70,35,12);
+  light.position.y=-.3;
+  group.add(light);
 
-  for(let i=0;i<7;i++) {
-    const angle=Math.random()*Math.PI*2;
-    const radius=.5+Math.random()*1.1;
-
-    const leaf=new THREE.Mesh(
-      new THREE.SphereGeometry(.22,20,12),
-      basilMaterial
-    );
-
-    leaf.scale.set(1.3,.08,.55);
-    leaf.position.set(
-      Math.cos(angle)*radius,
-      .36,
-      Math.sin(angle)*radius
-    );
-    leaf.rotation.y=angle;
-    group.add(leaf);
-  }
-
-  // Parmesan details
-  const cheeseMaterial=new THREE.MeshStandardMaterial({
-    color:0xf4dfaa,
-    roughness:.7
-  });
-
-  for(let i=0;i<35;i++) {
-    const piece=new THREE.Mesh(
-      new THREE.BoxGeometry(.07,.025,.09),
-      cheeseMaterial
-    );
-
-    const angle=Math.random()*Math.PI*2;
-    const radius=Math.random()*1.65;
-
-    piece.position.set(
-      Math.cos(angle)*radius,
-      .42,
-      Math.sin(angle)*radius
-    );
-
-    piece.rotation.y=Math.random()*Math.PI;
-    group.add(piece);
-  }
-
-  // Gold flecks
-  for(let i=0;i<45;i++) {
-    const fleck=new THREE.Mesh(
-      new THREE.SphereGeometry(.025,8,8),
-      gold
-    );
-
-    const angle=Math.random()*Math.PI*2;
-    const radius=1.3+Math.random()*1.3;
-
-    fleck.position.set(
-      Math.cos(angle)*radius,
-      .12,
-      Math.sin(angle)*radius
-    );
-
-    group.add(fleck);
-  }
-
-  return group;
+  scene.add(group);
+  chandeliers.push(group);
 }
 
-/* LIGHTING */
+createChandelier(-3,7,-5);
+createChandelier(3,7,-13);
+createChandelier(0,7,5);
 
-function addLighting(scene) {
-  scene.add(new THREE.AmbientLight(0xffffff,1.5));
-
-  const goldLight=new THREE.PointLight(0xd9a85c,90);
-  goldLight.position.set(4,5,4);
-  scene.add(goldLight);
-
-  const softLight=new THREE.PointLight(0xffffff,55);
-  softLight.position.set(-4,3,-3);
-  scene.add(softLight);
-
-  const fillLight=new THREE.PointLight(0xc77c37,25);
-  fillLight.position.set(0,-2,5);
-  scene.add(fillLight);
-}
-
-/* ORIGINAL HERO 3D DISH */
-
-const heroCanvas=document.querySelector("#dish-canvas");
-const heroScene=new THREE.Scene();
-const heroCamera=new THREE.PerspectiveCamera(35,1,.1,100);
-
-heroCamera.position.set(0,5.5,9);
-
-const heroRenderer=new THREE.WebGLRenderer({
-  canvas:heroCanvas,
-  antialias:true,
-  alpha:true
+// Tables and dining chairs
+const tableMat = new THREE.MeshStandardMaterial({
+  color:0x211a13,
+  roughness:.3,
+  metalness:.3
 });
 
-heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-heroRenderer.outputColorSpace=THREE.SRGBColorSpace;
-heroRenderer.toneMapping=THREE.ACESFilmicToneMapping;
-heroRenderer.toneMappingExposure=1.25;
-
-addLighting(heroScene);
-
-const heroDish=createDish(heroScene,0);
-
-const heroControls=new OrbitControls(heroCamera,heroRenderer.domElement);
-heroControls.enableDamping=true;
-heroControls.dampingFactor=.06;
-heroControls.enablePan=false;
-heroControls.minDistance=6;
-heroControls.maxDistance=13;
-heroControls.minPolarAngle=.45;
-heroControls.maxPolarAngle=1.45;
-heroControls.autoRotate=true;
-heroControls.autoRotateSpeed=.7;
-
-function resizeHero() {
-  const width=heroCanvas.clientWidth;
-  const height=heroCanvas.clientHeight;
-
-  heroCamera.aspect=width/height;
-  heroCamera.updateProjectionMatrix();
-  heroRenderer.setSize(width,height,false);
-}
-
-const heroObserver=new ResizeObserver(resizeHero);
-heroObserver.observe(heroCanvas.parentElement);
-resizeHero();
-
-/* IMMERSIVE MENU 3D SCENE */
-
-const menuCanvas=document.querySelector("#menu-canvas");
-const menuScene=new THREE.Scene();
-
-const menuCamera=new THREE.PerspectiveCamera(35,1,.1,100);
-menuCamera.position.set(0,5.5,9);
-
-const menuRenderer=new THREE.WebGLRenderer({
-  canvas:menuCanvas,
-  antialias:true,
-  alpha:true
+const chairMat = new THREE.MeshStandardMaterial({
+  color:0x17130f,
+  roughness:.6
 });
 
-menuRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-menuRenderer.outputColorSpace=THREE.SRGBColorSpace;
-menuRenderer.toneMapping=THREE.ACESFilmicToneMapping;
-menuRenderer.toneMappingExposure=1.25;
+function createTable(x,z) {
+  const group=new THREE.Group();
+  group.position.set(x,0,z);
 
-addLighting(menuScene);
+  const top=new THREE.Mesh(
+    new THREE.CylinderGeometry(1.25,1.25,.16,32),
+    tableMat
+  );
+  top.position.y=1.15;
+  group.add(top);
 
-const menuDish=createDish(menuScene,0);
+  const leg=new THREE.Mesh(
+    new THREE.CylinderGeometry(.12,.25,1.1,16),
+    new THREE.MeshStandardMaterial({
+      color:0x997143,
+      metalness:.8,
+      roughness:.3
+    })
+  );
+  leg.position.y=.55;
+  group.add(leg);
 
-const menuControls=new OrbitControls(menuCamera,menuRenderer.domElement);
-menuControls.enableDamping=true;
-menuControls.dampingFactor=.07;
-menuControls.enablePan=false;
-menuControls.minDistance=5;
-menuControls.maxDistance=12;
-menuControls.minPolarAngle=.45;
-menuControls.maxPolarAngle=1.45;
-menuControls.autoRotate=true;
-menuControls.autoRotateSpeed=.8;
+  for(let i=0;i<4;i++) {
+    const angle=i*Math.PI/2;
+    const chair=new THREE.Mesh(
+      new THREE.BoxGeometry(.65,.9,.65),
+      chairMat
+    );
+    chair.position.set(
+      Math.cos(angle)*1.9,
+      .45,
+      Math.sin(angle)*1.9
+    );
+    group.add(chair);
+  }
 
-function resizeMenu() {
-  const width=menuCanvas.clientWidth;
-  const height=menuCanvas.clientHeight;
-
-  menuCamera.aspect=width/height;
-  menuCamera.updateProjectionMatrix();
-  menuRenderer.setSize(width,height,false);
+  scene.add(group);
 }
 
-const menuObserver=new ResizeObserver(resizeMenu);
-menuObserver.observe(menuCanvas.parentElement);
-resizeMenu();
+createTable(-4,-3);
+createTable(4,-3);
+createTable(-4,-11);
+createTable(4,-11);
 
-/* MENU DATA */
+// ----------------------------------
+// INTERACTIVE FOOD MODEL
+// ----------------------------------
 
-const dishes=[
-  {
-    name:"Midnight Truffle",
-    category:"01 / SIGNATURE",
-    description:"Creamy truffle pasta, parmesan, cracked pepper and fresh herbs. A rich signature creation.",
-    price:"₹620"
-  },
-  {
-    name:"Golden Ember",
-    category:"02 / HOUSE SPECIAL",
-    description:"Roasted vegetables, delicate spices and a rich, slow-cooked sauce with golden notes.",
-    price:"₹490"
-  },
-  {
-    name:"Velvet Tomato",
-    category:"03 / CLASSIC",
-    description:"Slow-roasted tomato, basil, olive oil and fresh parmesan. A timeless combination.",
-    price:"₹390"
+const foodCanvas=document.getElementById('food-canvas');
+
+const foodRenderer=new THREE.WebGLRenderer({
+  canvas:foodCanvas,
+  alpha:true,
+  antialias:true
+});
+
+foodRenderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+foodRenderer.setSize(500,420,false);
+foodRenderer.toneMapping=THREE.ACESFilmicToneMapping;
+foodRenderer.toneMappingExposure=1.4;
+
+const foodScene=new THREE.Scene();
+
+const foodCamera=new THREE.PerspectiveCamera(36,500/420,.1,100);
+foodCamera.position.set(0,3.2,7);
+foodCamera.lookAt(0,0,0);
+
+foodScene.add(new THREE.AmbientLight(0xffffff,2));
+
+const foodLight=new THREE.PointLight(0xffc37a,100,20);
+foodLight.position.set(3,5,4);
+foodScene.add(foodLight);
+
+const plateMat=new THREE.MeshStandardMaterial({
+  color:0xe8e2d7,
+  roughness:.2,
+  metalness:.15
+});
+
+let currentDish=null;
+
+function makeFood(dish) {
+  if(currentDish) foodScene.remove(currentDish);
+
+  const group=new THREE.Group();
+
+  const plate=new THREE.Mesh(
+    new THREE.CylinderGeometry(1.5,1.5,.12,64),
+    plateMat
+  );
+  plate.position.y=-.45;
+  group.add(plate);
+
+  const rim=new THREE.Mesh(
+    new THREE.TorusGeometry(1.35,.025,8,64),
+    new THREE.MeshStandardMaterial({
+      color:0xc7a66c,
+      metalness:.9,
+      roughness:.2
+    })
+  );
+  rim.rotation.x=Math.PI/2;
+  rim.position.y=-.37;
+  group.add(rim);
+
+  if(dish==='steak') {
+    const steak=new THREE.Mesh(
+      new THREE.SphereGeometry(1,32,24),
+      new THREE.MeshStandardMaterial({
+        color:0x71301d,
+        roughness:.48
+      })
+    );
+    steak.scale.set(1.05,.27,.63);
+    steak.rotation.y=-.3;
+    steak.position.set(0,-.12,0);
+    group.add(steak);
+
+    for(let i=0;i<5;i++) {
+      const grill=new THREE.Mesh(
+        new THREE.BoxGeometry(.035,.025,.95),
+        new THREE.MeshStandardMaterial({
+          color:0x21120d
+        })
+      );
+      grill.position.set(-.65+i*.3,.13,0);
+      grill.rotation.y=-.3;
+      group.add(grill);
+    }
+
+    const butter=new THREE.Mesh(
+      new THREE.BoxGeometry(.38,.12,.3),
+      new THREE.MeshStandardMaterial({
+        color:0xeac66e
+      })
+    );
+    butter.position.set(.35,.13,0);
+    group.add(butter);
+
+    addGarnish(group,-.85,-.17,.35);
+    addGarnish(group,.9,-.17,-.3);
   }
-];
 
-let currentDish=0;
+  if(dish==='pasta') {
+    for(let i=0;i<8;i++) {
+      const noodle=new THREE.Mesh(
+        new THREE.TorusGeometry(.35+i*.025,.045,10,40),
+        new THREE.MeshStandardMaterial({
+          color:i%2?0xd4a44e:0xe7bd69,
+          roughness:.65
+        })
+      );
+      noodle.position.set(
+        Math.sin(i)*.12,
+        -.16+i*.018,
+        Math.cos(i)*.12
+      );
+      noodle.rotation.x=Math.PI/2;
+      group.add(noodle);
+    }
 
-const nameElement=document.querySelector("#menu-name");
-const descriptionElement=document.querySelector("#menu-description");
-const priceElement=document.querySelector("#menu-price");
-const indexElement=document.querySelector("#menu-index");
-const positionElement=document.querySelector("#menu-position");
-const dots=document.querySelectorAll(".menu-dot");
+    for(let i=0;i<5;i++) {
+      const truffle=new THREE.Mesh(
+        new THREE.SphereGeometry(.07,12,12),
+        new THREE.MeshStandardMaterial({color:0x252019})
+      );
+      truffle.position.set(
+        Math.sin(i*2)*.55,
+        .08,
+        Math.cos(i*2)*.45
+      );
+      group.add(truffle);
+    }
+  }
 
-function showDish(index) {
-  currentDish=(index+dishes.length)%dishes.length;
+  if(dish==='dessert') {
+    const cake=new THREE.Mesh(
+      new THREE.CylinderGeometry(.58,.65,.65,48),
+      new THREE.MeshStandardMaterial({
+        color:0x38180f,
+        roughness:.3
+      })
+    );
+    cake.position.y=-.03;
+    group.add(cake);
 
-  const item=dishes[currentDish];
+    const top=new THREE.Mesh(
+      new THREE.CylinderGeometry(.58,.58,.08,48),
+      new THREE.MeshStandardMaterial({
+        color:0x21100d,
+        roughness:.2
+      })
+    );
+    top.position.y=.34;
+    group.add(top);
 
-  nameElement.textContent=item.name;
-  descriptionElement.textContent=item.descripti
+    const cream=new THREE.Mesh(
+      new THREE.SphereGeometry(.2,20,20),
+      new THREE.MeshStandardMaterial({
+        color:0xf2e1c2
+      })
+    );
+    cream.scale.set(1,.5,1);
+    cream.position.set(.12,.52,.1);
+    group.add(cream);
+  }
+
+  group.scale.setScalar(.9);
+  foodScene.add(group);
+  currentDish=group;
+}
+
+function addGarnish(group,x,y,z) {
+  const leaf=new THREE.Mesh(
+    new THREE.SphereGeometry(.18,12,12),
+    new THREE.MeshStandardMaterial({
+      color:0x46613b,
+      roughness:.8
+    })
+  );
+  leaf.scale.set(1,.18,.5);
+  leaf.position.set(x,y,z);
+  group.add(leaf);
+}
+
+makeFood('steak');
+
+// Drag rotation
+let dragging=false;
+let lastX=0;
+
+foodCanvas.addEventListener('pointerdown',e=>{
+  dragging=true;
+  lastX=e.clientX;
+  foodCanvas.setPointerCapture(e.pointerId);
+});
+
+foodCanvas.addEventListener('pointermove',e=>{
+  if(!dragging || !currentDish) return;
+  currentDish.rotation.y+=(e.clientX-lastX)*.012;
+  
